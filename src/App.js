@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
-import { Blank, LoginLayout, Standard } from './layout'
+import { Blank, Standard } from './layout'
 import { Dashboard, Home, Login, ForgotPassword, Error, Preview, Register, ResetPassword, Flyer, QRcodeScanner } from './pages';
 
 
@@ -24,7 +24,9 @@ function App() {
     <>
       <Router>
         <Switch>
-          <AppRoute exact path="/" layout={LoginLayout} component={Home} />
+          <AppRoute exact path="/">
+            <Redirect to="/login" />
+          </AppRoute>
           <AppRoute exact path="/login" layout={Standard} component={Login} />
           <AppRoute exact path="/register" layout={Standard} component={Register} />
           <AppRoute exact path="/error" layout={Blank} component={Error} />
@@ -33,7 +35,7 @@ function App() {
           <AppRoute exact path="/dashboard" layout={Blank} component={Dashboard} />
           <AppRoute exact path="/preview" layout={Standard} component={Preview} />
           <AppRoute exact path="/e-flyer" layout={Blank} component={Flyer} />
-          <AppRoute exact path="/qrcode-scanner" layout={Blank} component={QRcodeScanner} />
+          <AppRoute exact path="/qrcode-scanner" layout={Standard} component={QRcodeScanner} />
           <AppRoute exact insecure>
             <Redirect to="/error" />
           </AppRoute>

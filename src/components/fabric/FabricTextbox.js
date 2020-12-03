@@ -1,12 +1,14 @@
 import { fabric } from "fabric";
 
-function FabricTextbox(canvas, size) {
+function FabricTextbox(canvas) {
+  const w = window.innerWidth
+  const h = window.innerHeight
+
   const textbox = new fabric.Textbox('text', {
-    left: size.width / 2,
-    top: size.height / 2,
+    left: w / 2,
+    top: h / 2,
     originX: 'center',
-    originY: 'center',
-    fontFamily: 'Comic Sans'
+    originY: 'center'
   });
 
   canvas.add(textbox)

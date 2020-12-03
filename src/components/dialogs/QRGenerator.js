@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import QRCode from 'qrcode.react'
 import { jsPDF } from "jspdf"
-import logo from '../images/flyer.png'
+import logo from '../../images/flyer.png'
 
 import {
   Button,

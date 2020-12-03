@@ -15,11 +15,13 @@ import { fabric } from "fabric";
 //   fill: 'red',
 // }
 
-function FabricCircle(canvas, size) {
+function FabricCircle(canvas) {
+  const w = window.innerWidth
+  const h = window.innerHeight
 
   const circle = new fabric.Circle({
-    left: size.width / 2,
-    top: size.height / 2,
+    left: w / 2,
+    top: h / 2,
     originX: 'center',
     originY: 'center',
     radius: 20,

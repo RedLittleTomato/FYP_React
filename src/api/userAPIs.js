@@ -17,12 +17,13 @@ function options(token) {
 export const login = payload => api.post(`/login`, payload)
 // export const logout = payload => api.get(`/logout`, payload) ==> direct clear localstorage
 export const register = payload => api.post(`/register`, payload)
-export const forgotPassword = payload => api.post(`/forgotpassword`, payload)
+export const forgotPassword = payload => api.put(`/forgotpassword`, payload)
 export const resetValidation = token => api.get(`/reset/${token}`)
 export const updatePassword = payload => api.put(`/updatepassword`, payload)
 
 // auth
 export const checkSavedFlyer = query => api.get(`/checksavedflyer`, { ...query, ...options(localStorage.getItem('token')) })
+export const getSavedFlyerList = () => api.get(`/savedflyerlist`, options(localStorage.getItem('token')))
 export const saveFlyer = payload => api.put(`/saveflyer`, payload, options(localStorage.getItem('token')))
 
 const apis = {
@@ -35,6 +36,7 @@ const apis = {
 
   //auth
   checkSavedFlyer,
+  getSavedFlyerList,
   saveFlyer
 }
 

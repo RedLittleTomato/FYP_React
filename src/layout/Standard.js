@@ -1,15 +1,19 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom';
 
 import {
   AppBar,
-  Button,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography
 } from '@material-ui/core';
 
-import MenuIcon from '@material-ui/icons/Menu';
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+import { AiOutlineScan } from 'react-icons/ai';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -33,18 +37,23 @@ const useStyles = makeStyles(() => ({
 
 function Standard(props) {
   const classes = useStyles()
+  const login = localStorage.getItem('token')
 
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
             PIGture
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Tooltip arrow title={login ? "Dashboard" : "Login"} placement="bottom">
+            <IconButton color="inherit" component={Link} to="/login">
+              {login ? <DashboardIcon /> : <AccountCircle />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip arrow title="Scan QR code" placement="bottom">
+            <IconButton color="inherit" component={Link} to="/qrcode-scanner"><AiOutlineScan /></IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       {props.children}

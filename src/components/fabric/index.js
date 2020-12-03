@@ -4,6 +4,7 @@ import Image from './FabricImage'
 import Line from './FabricLine'
 import Rect from './FabricRect'
 import Textbox from './FabricTextbox'
+import Triangle from './FabricTriangle'
 
 export {
   Canvas,
@@ -11,5 +12,6 @@ export {
   Image,
   Line,
   Rect,
-  Textbox
+  Textbox,
+  Triangle
 }

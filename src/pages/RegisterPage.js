@@ -11,11 +11,16 @@ import {
   Button,
   Container,
   CircularProgress,
+  FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
   Grid,
+  MenuItem,
+  Select,
   Snackbar,
-  TextField
+  TextField,
+  Tooltip
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
@@ -23,6 +28,13 @@ import {
   Visibility,
   VisibilityOff
 } from '@material-ui/icons';
+
+import { BsInfoCircle } from 'react-icons/bs'
+
+const info = {
+  "Normal Account": 'Normal account allows to preview, download and save flyers. It does not include the functionalities of creating flyer and uploading flyer.',
+  "Organization Account": 'Organziation account has all the functionalities as normal account and include the functionalities of creating flyer and uploading flyer.'
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,11 +65,20 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     width: '100%',
+  }
+}));
+
+const useStylesBootstrap = makeStyles(() => ({
+  tooltip: {
+    fontSize: '15px',
   },
 }));
 
 function RegisterPage() {
   const classes = useStyles()
+  const tooltipClasses = useStylesBootstrap()
+  const [accountType, setAccountType] = useState("Normal Account")
+  const [tooltipOpen, setTooltipOpen] = useState(false)
   const [username, setUsername] = useState({
     value: '',
     error: false,
@@ -87,28 +108,24 @@ function RegisterPage() {
     message: ''
   })
 
+  const handleAccountTypeChange = (event) => {
+    setAccountType(event.target.value);
+  }
   const handleChangeUsername = () => (event) => {
     setUsername({ ...username, 'value': event.target.value });
   };
-
   const handleChangeEmail = () => (event) => {
     setEmail({ ...email, 'value': event.target.value });
   };
-
   const handleChangePassword = () => (event) => {
     setPassword({ ...password, 'value': event.target.value });
   };
-
   const handleChangeConfirmPassword = () => (event) => {
     setConfirmPassword({ ...confirmPassword, 'value': event.target.value });
   };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   const handleCloseSnackbar = () => {
@@ -146,6 +163,7 @@ function RegisterPage() {
       setConfirmPassword({ ...confirmPassword, 'error': false })
       setIsLoading(true)
       const payload = {
+        type: accountType.split(" ")[0].toLowerCase(),
         username: username.value,
         email: email.value,
         password: password.value
@@ -167,6 +185,7 @@ function RegisterPage() {
     }
   }
 
+  // Enter listener
   useEffect(() => {
     function downHandler({ key }) {
       if (key === "Enter") {
@@ -180,6 +199,10 @@ function RegisterPage() {
     };
   }, [handleRegister]);
 
+  const handleTooltip = () => {
+    setTooltipOpen(!tooltipOpen)
+  }
+
   return (
     <div className={classes.root}>
       <Container maxWidth="xs" className={classes.container}>
@@ -190,11 +213,30 @@ function RegisterPage() {
           <Grid item className={classes.gridItem}>
             <h3>Register</h3>
           </Grid>
+          <Grid item className={classes.gridItem} style={{ display: 'flex', alignItems: 'center' }}>
+            <FormControl variant="outlined" className={classes.textField}>
+              <InputLabel>Account Type</InputLabel>
+              <Select
+                label="Account Type"
+                value={accountType}
+                onChange={handleAccountTypeChange}
+              >
+                <MenuItem value="Normal Account">
+                  Normal Account
+                </MenuItem>
+                <MenuItem value="Organization Account">Organization Account</MenuItem>
+              </Select>
+            </FormControl>
+            <Tooltip disableHoverListener open={tooltipOpen} onClose={handleTooltip} title={info[accountType]} placement="right" arrow classes={tooltipClasses}>
+              <IconButton onClick={handleTooltip} style={{ marginLeft: '15px' }}>
+                <BsInfoCircle color="blue" size="20px" />
+              </IconButton>
+            </Tooltip>
+          </Grid>
           <Grid item className={classes.gridItem}>
             <TextField
               className={classes.textField}
               label="Username"
-              // autoFocus
               value={username.value}
               error={username.error}
               helperText={username.error ? username.errorMessage : ' '}
@@ -240,7 +282,7 @@ function RegisterPage() {
               onChange={handleChangeConfirmPassword()}
               InputProps={{
                 endAdornment: <InputAdornment position="end">
-                  <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
+                  <IconButton onClick={handleClickShowPassword}>
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>,
@@ -250,7 +292,7 @@ function RegisterPage() {
           <Grid item className={classes.gridItem}>
             <Button className={classes.button} variant="contained" color="primary" onClick={handleRegister}>
               Register
-            {isLoading && <CircularProgress style={{ marginLeft: "10px" }} size={15} />}
+            {isLoading && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
             </Button>
           </Grid>
           <Grid item className={classes.gridItem}>

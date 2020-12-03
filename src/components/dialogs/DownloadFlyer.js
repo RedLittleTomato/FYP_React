@@ -4,10 +4,11 @@ import { jsPDF } from "jspdf"
 
 import {
   Button,
+  Dialog,
+  DialogContent,
   FormControl,
   FormControlLabel,
   FormLabel,
-  Dialog,
   Grid,
   IconButton,
   Radio,
@@ -24,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     padding: '16px'
+  },
+  image: {
+    border: '1px solid black'
   },
   closeButton: {
     position: 'absolute',
@@ -45,21 +49,16 @@ function DownloadFlyer(props) {
   };
 
   const downloadFlyer = () => {
-    const canvas = document.getElementById("QRcode");
     if (type === "pdf") {
-      const imageUrl = canvas.toDataURL("image/jpeg", 1.0);
       const pdf = new jsPDF({
         unit: "px",
         format: [size - 110, size - 110]
       });
-      pdf.addImage(imageUrl, 'JPEG', 0, 0);
+      pdf.addImage(image, 'JPEG', 0, 0);
       pdf.save(`${flyerName}.pdf`);
     } else {
-      const imageUrl = canvas
-        .toDataURL(`image/${type}`)
-        .replace(`image/${type}`, "image/octet-stream");
       let downloadLink = document.createElement("a");
-      downloadLink.href = imageUrl;
+      downloadLink.href = image;
       downloadLink.download = `${flyerName}.${type}`;
       downloadLink.click();
     }
@@ -72,24 +71,26 @@ function DownloadFlyer(props) {
         <IconButton className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
         </IconButton>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          className={classes.root}
-        >
-          <img src={image} alt={flyerName} />
-          <FormControl className={classes.formControl}>
-            <FormLabel>File Type</FormLabel>
-            <RadioGroup row value={type} onChange={handleChange}>
-              <FormControlLabel value="PNG" control={<Radio />} label="PNG" />
-              <FormControlLabel value="JPEG" control={<Radio />} label="JPEG" />
-              <FormControlLabel value="PDF" control={<Radio />} label="PDF" />
-            </RadioGroup>
-          </FormControl>
-          <Button onClick={downloadFlyer} variant="contained" color="primary">Download Flyer</Button>
-        </Grid>
+        <DialogContent>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            className={classes.root}
+          >
+            <img className={classes.image} src={image} alt={flyerName} width="99%" height="auto" />
+            <FormControl className={classes.formControl}>
+              <FormLabel>File Type</FormLabel>
+              <RadioGroup row value={type} onChange={handleChange}>
+                <FormControlLabel value="PNG" control={<Radio />} label="PNG" />
+                <FormControlLabel value="JPEG" control={<Radio />} label="JPEG" />
+                <FormControlLabel value="PDF" control={<Radio />} label="PDF" />
+              </RadioGroup>
+            </FormControl>
+            <Button onClick={downloadFlyer} variant="contained" color="primary">Download Flyer</Button>
+          </Grid>
+        </DialogContent>
       </Dialog>
     </div>
   )

@@ -17,7 +17,6 @@ function QRcodeScanner() {
   return (
     <div className={classes.root}>
       <QRScanner />
-      {/* <QRGenerator fullScreen={true} open={true} flyerName="flyer" type="pdf" url="https://www.google.com/" /> */}
     </div>
   )
 }

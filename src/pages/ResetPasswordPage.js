@@ -68,10 +68,6 @@ function Reset() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-  const [validation, setValidation] = useState({
-    valid: true,
-    message: ''
-  })
   const [userId, setUserId] = useState('')
   const [updated, setUpdated] = useState({
     value: false,
@@ -131,8 +127,8 @@ function Reset() {
         })
         .catch(error => {
           const res = error.response.data
+          console.log(res)
           history.push('./error')
-          setValidation({ valid: false, message: res.error })
         })
     }
     checkResetValidation()

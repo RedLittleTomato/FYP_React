@@ -2,17 +2,14 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
+  Backdrop,
   CircularProgress,
-  Dialog
 } from '@material-ui/core'
 
-const useStyles = makeStyles(() => ({
-  dialog: {
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white'
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
   }
 }));
 
@@ -22,19 +19,9 @@ function LoadingScreen(props) {
 
   return (
     <>
-      <Dialog
-        fullScreen
-        open={open}
-        PaperProps={{
-          style: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-          }
-        }}>
-        <div className={classes.dialog}>
-          <CircularProgress style={{ color: 'white' }} size={30} />
-        </div>
-      </Dialog>
+      <Backdrop className={classes.backdrop} open={open} >
+        <CircularProgress color="inherit" size={30} />
+      </Backdrop>
     </>
   )
 }

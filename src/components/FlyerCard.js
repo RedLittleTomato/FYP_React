@@ -7,12 +7,11 @@ import {
   Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
-  CardMedia,
   CircularProgress
 } from '@material-ui/core'
 
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Create'
 import PreviewIcon from '@material-ui/icons/Visibility'
 import BookmarkIcon from '@material-ui/icons/Bookmark'
@@ -21,7 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 const useStyles = makeStyles({
   root: {
     position: "relative",
-    minHeight: "385px",
+    // minHeight: "385px",
     margin: '16px',
     textAlign: 'center',
     borderBottomStyle: 'solid',
@@ -64,8 +63,10 @@ const useStyles = makeStyles({
 
 function FlyerCard(props) {
   const classes = useStyles()
-  const { id, flyer, title, icon, image, name, onClick } = props
+  const { type, like, save, id, flyer, title, icon, image, name, onClick, deleteFlyer } = props
   const history = useHistory()
+  const [liked, setLiked] = useState(like)
+  const [saved, setSaved] = useState(save)
   const [hover, setHover] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -105,79 +106,80 @@ function FlyerCard(props) {
     }
   }
 
-  const handleOnPreview = (e) => {
-    e.preventDefault()
-    // const win = window.open(`${process.env.REACT_APP_BASE_URL}/preview?id=${id}`, "")
-    // win.focus()
-    // history.push(`/preview?id=${id}`)
+  const handleOnLike = async (e) => {
+    const payload = {
+      like: !liked,
+      flyer_id: id
+    }
+    await flyerAPIs.likeFlyer(payload)
+      // .then(res => {
+      //   const data = res.data
+      //   console.log(data)
+      // })
+      .catch(err => {
+        const res = err
+        console.log(res)
+      })
+    setLiked(!liked)
   }
 
-  const handleOnBookmark = (e) => {
-
+  const handleOnBookmark = async (e) => {
+    const payload = {
+      save: !saved,
+      flyer_id: id
+    }
+    await userAPIs.saveFlyer(payload)
+      // .then(res => {
+      //   const data = res.data
+      //   console.log(data)
+      // })
+      .catch(err => {
+        const res = err
+        console.log(res)
+      })
+    setSaved(!saved)
   }
 
-  const handleOnDelete = async (e) => {
+  const handleOnDelete = async (e, id, title, flyer) => {
     e.preventDefault()
     setIsLoading(true)
-    if (title === 'Dashboard') {
-      await flyerAPIs.deleteFlyer(id)
-        .then(res => {
-          const data = res
-          console.log(data)
-        })
-        .catch(err => {
-          const error = err.response
-          console.log(error)
-        })
-    }
-    else if (title === 'Saved') {
-      const payload = {
-        save: false,
-        flyer_id: id
-      }
-      await userAPIs.saveFlyer(payload)
-        .then(res => {
-          const data = res.data
-          console.log(data)
-        })
-        .catch(err => {
-          const error = err.response
-          console.log(error)
-        })
-    }
+    await deleteFlyer(e, id, title, flyer)
     setIsLoading(false)
-    window.location.reload()
+    // window.location.reload()
   }
 
   return (
     <>
       <Card className={classes.root} onMouseOver={handleOnHover} onMouseLeave={handleLeaveHover}>
-        {title !== 'Add' && hover && <div className={classes.hover}>
+        {(title !== 'Add' && title !== 'Upload') && hover && <div className={classes.hover}>
           <div className={classes.hoverComponent}>
-            <Button className={classes.button} variant="contained" color="primary" onClick={e => handleOnEdit(e)} startIcon={<EditIcon />}>
-              {title === 'Dashboard' ? 'Edit' : 'Use'}
-            </Button>
+            {type === 'normal' ?
+              <Button className={classes.button} variant="contained" color={liked ? 'secondary' : 'primary'} onClick={e => handleOnLike(e)} startIcon={<FavoriteIcon />}>
+                {liked ? 'Liked' : 'Like'}
+              </Button>
+              :
+              <Button className={classes.button} variant="contained" color="primary" onClick={e => handleOnEdit(e)} startIcon={<EditIcon />}>
+                {title === 'Dashboard' ? 'Edit' : 'Use'}
+              </Button>
+            }
             <Button className={classes.button} variant="contained" color="primary" component={Link} to={`/preview?id=${id}`} target="_blank" startIcon={<PreviewIcon />}>
               Preview
             </Button>
-            {title === 'Templates' && <Button className={classes.button} variant="contained" color="primary" onClick={e => handleOnBookmark(e)} startIcon={<BookmarkIcon />}>
-              Save
+            {(title === 'Flyers' || title === 'Templates') && <Button className={classes.button} color="primary" style={{ backgroundColor: saved ? '#000000' : '#3f51b5' }} variant="contained" onClick={e => handleOnBookmark(e)} startIcon={<BookmarkIcon />}>
+              {saved ? 'Saved' : 'Save'}
             </Button>}
-            {title !== 'Templates' && <Button className={classes.button} variant="contained" color="primary" onClick={e => handleOnDelete(e)} startIcon={<DeleteIcon />}>
+            {title !== 'Flyers' && title !== 'Templates' && <Button className={classes.button} variant="contained" color="primary" onClick={e => handleOnDelete(e, id, title, flyer)} startIcon={<DeleteIcon />}>
               Delete {isLoading && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
             </Button>}
           </div>
         </div>}
         <CardActionArea className={classes.cardActionArea} onClick={onClick}>
-          {image && <img className={classes.image} src={image} alt={name} />}
+          {image && <img className={classes.image} src={image} alt={name} width="100%" height="auto" />}
           {icon && icon}
           <CardContent>
             {name}
           </CardContent>
         </CardActionArea>
-        {/* <CardActions className={classes.cardActions}>
-          {name}
-        </CardActions> */}
       </Card>
     </>
   )

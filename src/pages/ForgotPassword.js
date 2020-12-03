@@ -53,7 +53,7 @@ function ForgotPassword() {
   });
   const [error, setError] = useState({
     error: false,
-    messgae: ''
+    errorMessage: ''
   })
   const [loading, setLoading] = useState(false)
 
@@ -80,7 +80,7 @@ function ForgotPassword() {
         })
         .catch(error => {
           const res = error.response.data
-          setError({ error: true, errorMessage: res.error })
+          setError({ error: true, errorMessage: typeof res.error === 'object' ? res.error.code : res.error })
         })
       setLoading(false)
     }

@@ -3,29 +3,25 @@ import React, { useRef, useEffect } from 'react'
 import { fabric } from 'fabric';
 
 function FabricCanvas(props) {
-  const { backgroundColor, children, setCanvas, size } = props
+  const { id, setCanvas } = props
   const canvasRef = useRef(null)
-  const w = window.innerWidth
-  const h = window.innerHeight
 
   useEffect(() => {
-    setCanvas(
-      new fabric.Canvas(canvasRef.current, {
-        renderOnAddRemove: true,
-        width: size.width,
-        height: size.height,
-        // width: w,
-        // height: h,
-        backgroundColor: backgroundColor,
-        preserveObjectStacking: true
-      }),
-    )
+    const w = window.innerWidth
+    const h = window.innerHeight
+    setCanvas(new fabric.Canvas(canvasRef.current, {
+      renderOnAddRemove: true,
+      width: w,
+      height: h,
+      backgroundColor: '#f5f5f6',
+      preserveObjectStacking: true,
+    }))
   }, [setCanvas])
 
   return (
     <>
-      <canvas ref={canvasRef} />
-      {children}
+      <canvas id={id} ref={canvasRef} />
+      {/* {children} */}
     </>
   );
 }

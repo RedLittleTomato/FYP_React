@@ -21,8 +21,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function AlertCPNT({ children, open, setOpen, ...props }) {
+function AlertCPNT(props) {
   const classes = useStyles()
+  const { children, open, setOpen } = props
 
   return (
     <div>

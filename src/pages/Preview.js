@@ -3,7 +3,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { flyerAPIs, userAPIs } from '../api'
-import { DownloadFlyer, LoadingScreen, Login, QRGenerator } from '../components'
+import { LoadingScreen, Login } from '../components'
+import { DownloadFlyer, QRGenerator } from '../components/dialogs'
 
 import {
   Box,
@@ -87,10 +88,8 @@ function Preview() {
       history.push('/error')
       return
     }
-
+    setLoading(true)
     async function getPreviewFlyer() {
-      setLoading(true)
-
       await flyerAPIs.getPreviewFlyer(flyer_id)
         .then(res => {
           const data = res.data.data
@@ -107,8 +106,11 @@ function Preview() {
           }
         })
         .catch(err => {
-          const res = err
-          console.log(res)
+          const error = err.response
+          console.log(error)
+          if (error.status === 400 || error.status === 404) {
+            history.push('/error')
+          }
         })
     }
     async function checkSavedFlyer() {
@@ -130,10 +132,10 @@ function Preview() {
           const res = err
           console.log(res)
         })
-      setLoading(false)
     }
     getPreviewFlyer()
     checkSavedFlyer()
+    setLoading(false)
   }, [])
 
   const handleLogin = () => {
@@ -223,9 +225,7 @@ function Preview() {
             </Typography>
           </Grid>
           <Grid item className={classes.gridItem} style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src={flyer.image} alt={flyer.name}
-            // width="100%" 
-            />
+            <img src={flyer.image} alt={flyer.name} width="100%" height="auto" />
           </Grid>
           <Grid item className={classes.gridItem}>
             <Typography component="div" style={{ display: 'flex', justifyContent: 'space-between' }}>

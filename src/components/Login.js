@@ -112,9 +112,9 @@ function Login(props) {
             setLogin(false)
           } else {
             localStorage.setItem('user_id', data.id)
+            localStorage.setItem('type', data.type)
             localStorage.setItem('token', data.token)
             if (dialog) {
-              // window.location.reload()
               handleOnClose()
             } else {
               history.push('/dashboard')
@@ -162,6 +162,7 @@ function Login(props) {
               className={classes.textField}
               label="Email"
               // autoFocus
+              type="email"
               value={email.value}
               error={email.error}
               helperText={email.error ? email.errorMessage : ' '}
