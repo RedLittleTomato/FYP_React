@@ -715,7 +715,7 @@ function Flyer() {
     <div>
       {fullScreen && <BlockDialog />}
       <LoadingScreen open={loading} />
-      <QRGenerator fullScreen={fullScreen} open={QR} onClose={handleQR} flyerName="flyer" type="pdf" url="https://www.google.com/" />
+      <QRGenerator fullScreen={fullScreen} open={QR} onClose={handleQR} flyerName="flyer" type="pdf" url={`${process.env.REACT_APP_BASE_URL}/preview?id=${query.get("id")}`} />
       <DownloadFlyer
         flyerName={name}
         image={downloadFlyer.image}
