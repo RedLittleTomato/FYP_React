@@ -20,7 +20,10 @@ function QRScanner() {
   const handleOnScan = (data) => {
     if (data === null) return
     if (data && data.includes(process.env.REACT_APP_BASE_URL)) {
-      history.push(data);
+      history.push({
+        pathname: '/preview',
+        search: `?id=${data.split("=")[1]}`,
+      })
     } else {
       setSnackbar({
         open: true,
