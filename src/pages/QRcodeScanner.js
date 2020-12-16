@@ -4,6 +4,7 @@ import { QRScanner } from '../components'
 
 const useStyles = makeStyles(() => ({
   root: {
+    backgroundColor: '#f5f5f6',
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',

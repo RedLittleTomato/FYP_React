@@ -44,7 +44,7 @@ function Standard(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            PIGture
+            Flyer Garden
           </Typography>
           <Tooltip arrow title={login ? "Dashboard" : "Login"} placement="bottom">
             <IconButton color="inherit" component={Link} to="/login">

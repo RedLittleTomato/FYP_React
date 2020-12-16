@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Dialog } from '@material-ui/core';
 import Sorry from '../images/sorry.png'
 import { Link } from 'react-router-dom';
@@ -21,28 +22,13 @@ const useStyles = makeStyles(() => ({
 function BlockDialog() {
   const classes = useStyles();
   const [size, setSize] = useState(window.innerWidth / 2)
-  const [dialog, setDialog] = useState(window.innerWidth < 760 ? true : false)
-
-  useEffect(() => {
-    let isMounted = true; // Can't perform a React state update on an unmounted component
-    function handleResize() {
-      if (isMounted) {
-        if (window.innerWidth < 760) {
-          setSize(window.innerWidth / 2)
-          setDialog(true)
-        } else {
-          setDialog(false)
-        }
-      }
-    }
-    window.addEventListener("resize", handleResize);
-    return () => { isMounted = false }
-  }, [])
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <>
       <Dialog
-        open={dialog}
+        open={fullScreen}
         PaperProps={{
           style: {
             backgroundColor: 'transparent',
@@ -52,14 +38,14 @@ function BlockDialog() {
         <div className={classes.dialog}>
           <img src={Sorry} alt="Sorry" width={size} height={size}></img>
           <p>This graphic editor does not recommend to use on mobile site.</p>
-          <Button className={classes.button} variant="contained" color="primary" component={Link} to="/"> &lt; Back to Home</Button>
-          <Button className={classes.button} variant="contained" color="secondary"
+          <Button className={classes.button} variant="contained" color="primary" component={Link} to="/">Back to Home</Button>
+          {/* <Button className={classes.button} variant="contained" color="secondary"
             onClick={e => {
               e.preventDefault()
               setDialog(false)
             }}
           >
-            Continue to Use &gt; </Button>
+            Continue to Use &gt; </Button> */}
         </div>
       </Dialog>
     </>

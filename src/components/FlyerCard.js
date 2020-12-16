@@ -107,6 +107,7 @@ function FlyerCard(props) {
   }
 
   const handleOnLike = async (e) => {
+    setLiked(!liked)
     const payload = {
       like: !liked,
       flyer_id: id
@@ -120,10 +121,10 @@ function FlyerCard(props) {
         const res = err
         console.log(res)
       })
-    setLiked(!liked)
   }
 
   const handleOnBookmark = async (e) => {
+    setSaved(!saved)
     const payload = {
       save: !saved,
       flyer_id: id
@@ -137,7 +138,6 @@ function FlyerCard(props) {
         const res = err
         console.log(res)
       })
-    setSaved(!saved)
   }
 
   const handleOnDelete = async (e, id, title, flyer) => {

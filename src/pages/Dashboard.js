@@ -41,7 +41,7 @@ const sideBarData = {
       icon: <AssignmentIcon />
     },
     {
-      title: 'Saved',
+      title: 'Collection',
       icon: <BookmarkIcon />
     }
   ],
@@ -55,7 +55,7 @@ const sideBarData = {
       icon: <AssignmentIcon />
     },
     {
-      title: 'Saved',
+      title: 'Collection',
       icon: <BookmarkIcon />
     }
   ]
@@ -140,7 +140,7 @@ function Dashboard() {
   const theme = useTheme()
   const hiddenFileInput = useRef(null);
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
-  const type = localStorage.getItem('type')
+  const type = localStorage.getItem('type') || "normal"
   const user_id = localStorage.getItem('user_id')
 
   const [open, setOpen] = useState(!fullScreen)
@@ -149,10 +149,10 @@ function Dashboard() {
     Dashboard: [],
     Templates: [],
     Flyers: [],
-    Saved: []
+    Collection: []
   })
   const [content, setContent] = useState({
-    title: sideBarData[type][0].title,
+    title: type === "normal" ? "Flyers" : "Dashboard",
     flyers: []
   })
   const [savedFlyerList, setSavedFlyerList] = useState([])
@@ -233,8 +233,11 @@ function Dashboard() {
         await flyerAPIs.getTemplateFlyers()
           .then(res => {
             const data = res.data.data
-            setFlyers({ ...flyers, [title]: data })
-            setContent({ 'title': title, 'flyers': data })
+            var filtered = data.filter(function (value) {
+              return value.editor !== user_id;
+            });
+            setFlyers({ ...flyers, [title]: filtered })
+            setContent({ 'title': title, 'flyers': filtered })
           })
           .catch(err => {
             const error = err.response.data
@@ -242,7 +245,7 @@ function Dashboard() {
           })
         setLoading(false)
       }
-      if (title === 'Saved') {
+      if (title === 'Collection') {
         setLoading(true)
         await flyerAPIs.getSavedFlyers()
           .then(res => {
@@ -271,7 +274,7 @@ function Dashboard() {
 
     var image = ''
     if (src === 'image' && e.target.files[0]) {
-      if (!e.target.files[0].type.includes("image")) return setSnackbar({ open: true, severity: "error", message: "Upload file is not an image.", loading: false })
+      if (!e.target.files[0].type.includes("image")) return setSnackbar({ open: true, severity: "error", message: "Uploaded file is not an image.", loading: false })
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0])
       reader.addEventListener("load", () => {
@@ -317,7 +320,7 @@ function Dashboard() {
           console.log(error)
         })
     }
-    else if (title === 'Saved') {
+    else if (title === 'Collection') {
       const payload = {
         save: false,
         flyer_id: id

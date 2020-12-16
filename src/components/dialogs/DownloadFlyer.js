@@ -52,7 +52,7 @@ function DownloadFlyer(props) {
     if (type === "pdf") {
       const pdf = new jsPDF({
         unit: "px",
-        format: [size - 110, size - 110]
+        // format: [size - 110, size - 110]
       });
       pdf.addImage(image, 'JPEG', 0, 0);
       pdf.save(`${flyerName}.pdf`);

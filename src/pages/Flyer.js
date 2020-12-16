@@ -127,9 +127,9 @@ function Flyer() {
   const classes = useStyles();
   const history = useHistory()
   const theme = useTheme()
-  const hiddenFileInput = useRef(null);
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const query = new URLSearchParams(useLocation().search)
+  const hiddenFileInput = useRef(null);
   const [canvas, setCanvas] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -137,8 +137,8 @@ function Flyer() {
   const [project, setProject] = useState('')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [publish, setPublish] = useState(true)
-  const [template, setTemplate] = useState(true)
+  const [publish, setPublish] = useState(false)
+  const [template, setTemplate] = useState(false)
 
   // save
   const [saved, setSaved] = useState(false)
@@ -712,8 +712,8 @@ function Flyer() {
   }
 
   return (
-    <div>
-      {fullScreen && <BlockDialog />}
+    <div style={{ display: fullScreen ? 'none' : '' }}>
+      <BlockDialog />
       <LoadingScreen open={loading} />
       <QRGenerator fullScreen={fullScreen} open={QR} onClose={handleQR} flyerName="flyer" type="pdf" url={`${process.env.REACT_APP_BASE_URL}/preview?id=${query.get("id")}`} />
       <DownloadFlyer
@@ -751,7 +751,7 @@ function Flyer() {
       />
       <>
         <Drawer anchor="left">
-          <div>
+          {/* <div>
             <Button onClick={e => {
               e.preventDefault()
               const canvasJSON = canvas.toJSON()
@@ -762,7 +762,7 @@ function Flyer() {
               console.log(canvas.item(0))
               // console.log(JSON.stringify(canvasJSON))
             }}>To JSON</Button>
-          </div>
+          </div> */}
           <List>
             <p style={{ fontWeight: "bold", paddingLeft: "16px" }}>Shape</p>
             <Divider />
