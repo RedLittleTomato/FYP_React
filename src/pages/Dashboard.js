@@ -464,7 +464,7 @@ function Dashboard() {
           {content.title === 'Templates' && content.flyers.length === 0 &&
             <p>No template flyer recommended</p>
           }
-          {content.title === 'Saved' && content.flyers.length === 0 &&
+          {content.title === 'Collection' && content.flyers.length === 0 &&
             <p>No flyer saved</p>
           }
         </Grid>

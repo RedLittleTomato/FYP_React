@@ -20,7 +20,7 @@ function QRScanner() {
   const handleOnScan = (data) => {
     if (data === null) return
     if (data && data.includes(process.env.REACT_APP_BASE_URL)) {
-      history.push('/e-flyer');
+      history.push(data);
     } else {
       setSnackbar({
         open: true,
