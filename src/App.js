@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import { Blank, Standard } from './layout'
@@ -20,6 +20,11 @@ const AppRoute = ({ component: Component, layout: Layout, path, ...rest }) => {
 }
 
 function App() {
+
+  useEffect(() => {
+    document.title = "Flyer Garden"
+  }, [])
+
   return (
     <>
       <Router>
