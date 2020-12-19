@@ -13,7 +13,7 @@
     "dotenv": "^8.2.0",
     "fabric": "^4.2.0",
     "fabric-history": "^1.6.0",
-    "jspdf": "^2.1.1",
+    "jspdf": "^2.2.0",
     "qrcode.react": "^1.0.0",
     "react": "^16.14.0",
     "react-color": "^2.19.3",

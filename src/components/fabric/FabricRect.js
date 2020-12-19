@@ -14,8 +14,6 @@ function FabricRect(canvas) {
     height: 50,
     stroke: "black", // stroke = border
     strokeWidth: 1,
-    // cornerColor: 'blue',
-    // cornerStyle: 'circle',
   });
   canvas.add(rect)
   canvas.setActiveObject(rect)

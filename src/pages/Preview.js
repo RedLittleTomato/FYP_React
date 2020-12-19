@@ -225,7 +225,7 @@ function Preview() {
             </Typography>
           </Grid>
           <Grid item className={classes.gridItem} style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src={flyer.image} alt={flyer.name} width="100%" height="auto" />
+            <img src={flyer.image} alt={flyer.name} width="100%" height="auto" loading="lazy" />
           </Grid>
           <Grid item className={classes.gridItem}>
             <Typography component="div" style={{ display: 'flex', justifyContent: 'space-between' }}>
