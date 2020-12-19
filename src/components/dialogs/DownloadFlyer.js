@@ -49,7 +49,7 @@ function DownloadFlyer(props) {
   };
 
   const downloadFlyer = () => {
-    if (type === "pdf") {
+    if (type === "PDF") {
       const pdf = new jsPDF();
       pdf.addImage(image, 'JPEG', 0, 0);
       pdf.save(`${flyerName}.pdf`);
