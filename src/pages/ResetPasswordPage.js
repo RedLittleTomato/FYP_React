@@ -67,6 +67,7 @@ function Reset() {
     errorMessage: ''
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [disableUpdatePassword, setDisableUpdatePassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [userId, setUserId] = useState('')
   const [updated, setUpdated] = useState({
@@ -111,6 +112,7 @@ function Reset() {
       }
       await userAPIs.updatePassword(payload).then(res => {
         const data = res.data
+        setDisableUpdatePassword(true)
         setUpdated({ value: true, message: data.message })
       })
       setIsLoading(false)
@@ -194,7 +196,7 @@ function Reset() {
             />
           </Grid>
           <Grid item className={classes.gridItem}>
-            <Button className={classes.button} variant="contained" color="primary" onClick={handleReset}>
+            <Button className={classes.button} variant="contained" color="primary" onClick={handleReset} disabled={disableUpdatePassword}>
               Update Password
             {isLoading && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
             </Button>
