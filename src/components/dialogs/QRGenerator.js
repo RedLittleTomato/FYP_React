@@ -61,7 +61,7 @@ function QRGenerator({ flyerName, url, open, onClose, fullScreen }) {
         format: [size - 112, size - 112]
       });
       pdf.addImage(imageUrl, 'JPEG', 0, 0);
-      pdf.save(`${flyerName}.pdf`);
+      pdf.save(`${flyerName}-QRcode.pdf`);
     } else {
       const imageUrl = canvas
         .toDataURL(`image/${type}`)
