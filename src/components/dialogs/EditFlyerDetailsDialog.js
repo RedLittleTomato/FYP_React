@@ -142,7 +142,7 @@ function EditFlyerDetailsDialog(props) {
             Cancel
           </Button>
           <Button onClick={handleUpdate} variant="contained" color="primary">
-            Updated {updating && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
+            Update {updating && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
           </Button>
         </DialogActions>
       </Dialog>

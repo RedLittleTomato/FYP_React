@@ -86,7 +86,6 @@ function Preview() {
     const flyer_id = query.get("id")
     if (!flyer_id) {
       history.push('/error')
-      return
     }
     setLoading(true)
     async function getPreviewFlyer() {
@@ -94,16 +93,13 @@ function Preview() {
         .then(res => {
           const data = res.data.data
 
-          data.name = data.name.charAt(0).toUpperCase() + data.name.slice(1)
           data.likes = data.like.length
           if (data.like.includes(localStorage.getItem('user_id'))) {
             data.likes--
-          }
-          setFlyer(data)
-
-          if (data.like.includes(localStorage.getItem('user_id'))) {
             setLike(true)
           }
+
+          setFlyer(data)
         })
         .catch(err => {
           const error = err.response

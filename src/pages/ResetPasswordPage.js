@@ -91,7 +91,7 @@ function Reset() {
     event.preventDefault();
   };
 
-  const handleReset = async () => {
+  const handleUpdatePassword = async () => {
     if (password.value === '' || confirmPassword.value === '') {
       if (password.value === '') {
         setPassword({ ...password, 'error': true, 'errorMessage': 'The password cannot be blank.' })
@@ -139,7 +139,7 @@ function Reset() {
   useEffect(() => {
     function downHandler({ key }) {
       if (key === "Enter") {
-        handleReset()
+        handleUpdatePassword()
       }
     }
     window.addEventListener('keydown', downHandler);
@@ -147,7 +147,7 @@ function Reset() {
     return () => {
       window.removeEventListener('keydown', downHandler);
     };
-  }, [handleReset]);
+  }, [handleUpdatePassword]);
 
   return (
     <div className={classes.root}>
@@ -196,7 +196,7 @@ function Reset() {
             />
           </Grid>
           <Grid item className={classes.gridItem}>
-            <Button className={classes.button} variant="contained" color="primary" onClick={handleReset} disabled={disableUpdatePassword}>
+            <Button className={classes.button} variant="contained" color="primary" onClick={handleUpdatePassword} disabled={disableUpdatePassword}>
               Update Password
             {isLoading && <CircularProgress style={{ color: 'white', marginLeft: "10px" }} size={15} />}
             </Button>
