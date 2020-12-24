@@ -110,11 +110,12 @@ function Reset() {
         user_id: userId,
         password: password.value
       }
-      await userAPIs.updatePassword(payload).then(res => {
-        const data = res.data
-        setDisableUpdatePassword(true)
-        setUpdated({ value: true, message: data.message })
-      })
+      await userAPIs.updatePassword(payload)
+        .then(res => {
+          const data = res.data
+          setDisableUpdatePassword(true)
+          setUpdated({ value: true, message: data.message })
+        })
       setIsLoading(false)
     }
   }

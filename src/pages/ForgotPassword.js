@@ -51,7 +51,7 @@ function ForgotPassword() {
     error: false,
     errorMessage: ''
   });
-  const [error, setError] = useState({
+  const [message, setMessage] = useState({
     error: false,
     errorMessage: ''
   })
@@ -76,11 +76,11 @@ function ForgotPassword() {
       await userAPIs.forgotPassword(payload)
         .then(res => {
           const data = res.data
-          setError({ error: false, errorMessage: data.message })
+          setMessage({ error: false, errorMessage: data.message })
         })
         .catch(error => {
           const res = error.response.data
-          setError({ error: true, errorMessage: typeof res.error === 'object' ? res.error.code : res.error })
+          setMessage({ error: true, errorMessage: typeof res.error === 'object' ? res.error.code : res.error })
         })
       setLoading(false)
     }
@@ -134,7 +134,7 @@ function ForgotPassword() {
             </Button>
           </Grid>
           <Grid item className={classes.gridItem}>
-            <p style={{ textAlign: 'justify', color: error.error ? 'red' : 'green' }}>{error.errorMessage}</p>
+            <p style={{ textAlign: 'justify', color: message.error ? 'red' : 'green' }}>{message.errorMessage}</p>
           </Grid>
           <Grid item className={classes.gridItem} style={{ paddingTop: "30px", fontSize: "14px" }}>
             <p>Don't have an account? <Link to="/register">Register Here</Link></p>
