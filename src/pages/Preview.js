@@ -71,7 +71,7 @@ function Preview() {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [like, setLike] = useState(false)
   const [bookmark, setBookmark] = useState(false)
   const [flyer, setFlyer] = useState({
@@ -82,7 +82,7 @@ function Preview() {
   const [qr, setQr] = useState(false)
   const [download, setDownload] = useState(false)
 
-  useEffect(() => {
+  useEffect(async () => {
     const flyer_id = query.get("id")
     if (!flyer_id) {
       history.push('/error')
@@ -129,8 +129,8 @@ function Preview() {
           console.log(res)
         })
     }
-    getPreviewFlyer()
-    checkSavedFlyer()
+    await getPreviewFlyer()
+    await checkSavedFlyer()
     setLoading(false)
   }, [])
 
